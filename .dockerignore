@@ -1,0 +1,10 @@
+**/node_modules
+frontend/dist
+.git
+.env
+.env.*
+**/*.db
+**/*.db-*
+**/*.log
+.redeemx-url
+agent-transcripts

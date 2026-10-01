@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface: #f6f8fb;
+    --surface-elevated: #ffffff;
+    --content: #0b1220;
+    --content-muted: #5b6b80;
+    --border: #e6ebf2;
+    --accent: #0d9488;
+    --accent-hover: #0f766e;
+    --glass: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --hero-from: #0b1220;
+    --hero-via: #0f2e2a;
+    --hero-to: #131b3a;
+  }
+
+  .dark {
+    --surface: #05080f;
+    --surface-elevated: #0c1322;
+    --content: #f1f5f9;
+    --content-muted: #93a1b5;
+    --border: #1b2740;
+    --accent: #2dd4b8;
+    --accent-hover: #5eead4;
+    --glass: rgba(12, 19, 34, 0.6);
+    --glass-border: rgba(45, 212, 184, 0.12);
+    --hero-from: #05080f;
+    --hero-via: #07221f;
+    --hero-to: #0a1230;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen font-sans antialiased;
+    background-color: var(--surface);
+    color: var(--content);
+    padding-bottom: env(safe-area-inset-bottom);
+    position: relative;
+    line-height: 1.55;
+  }
+
+  /* Dezenter Hintergrund */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(13, 148, 136, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(13, 148, 136, 0.05) 0%, transparent 50%);
+  }
+
+  .dark body::before {
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(45, 212, 184, 0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(45, 212, 184, 0.04) 0%, transparent 50%);
+  }
+
+  @media (max-width: 1023px) {
+    body { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
+  }
+
+  ::selection {
+    background-color: rgba(45, 212, 184, 0.28);
+    color: inherit;
+  }
+
+  /* Schlanke, moderne Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  *::-webkit-scrollbar { height: 8px; width: 8px; }
+  *::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  .bg-surface { background-color: var(--surface); }
+  .bg-surface-elevated { background-color: var(--surface-elevated); }
+  .text-content { color: var(--content); }
+  .text-content-muted { color: var(--content-muted); }
+  .border-theme { border-color: var(--border); }
+
+  /* Glas-Effekt für Header & Overlays */
+  .glass {
+    background-color: var(--glass);
+    backdrop-filter: blur(14px) saturate(145%);
+    -webkit-backdrop-filter: blur(14px) saturate(145%);
+    border-color: var(--glass-border);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-md shadow-brand-600/15 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:ring-offset-2 focus:ring-offset-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-50;
+    background-color: #0d9488;
+  }
+  .btn-primary:hover {
+    background-color: #0f766e;
+    @apply shadow-lg shadow-brand-600/20;
+  }
+  .btn-primary:active { @apply brightness-95; }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-theme bg-surface-elevated px-5 py-3 text-sm font-semibold text-content transition-all duration-200 hover:border-brand-300 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:hover:text-brand-300;
+  }
+
+  .card {
+    @apply rounded-2xl border border-theme bg-surface-elevated p-6 shadow-sm transition-all duration-200;
+  }
+  .card:hover {
+    @apply border-brand-300/50 shadow-md;
+  }
+
+  /* Interaktive Karte ohne Hover-Lift (z. B. Formulare) */
+  .card-static { @apply rounded-2xl border border-theme bg-surface-elevated p-6 shadow-sm; }
+
+  .hero-card {
+    @apply relative overflow-hidden rounded-3xl border border-theme bg-surface-elevated p-6 shadow-sm sm:p-8;
+    background: linear-gradient(135deg, var(--surface-elevated) 0%, color-mix(in srgb, var(--surface-elevated) 90%, #0d9488) 100%);
+  }
+  .dark .hero-card {
+    background: linear-gradient(135deg, var(--surface-elevated) 0%, color-mix(in srgb, var(--surface-elevated) 86%, #0f766e) 100%);
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-theme bg-surface px-4 py-3 text-sm text-content placeholder:text-content-muted shadow-sm transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+  }
+
+  .badge-glow {
+    @apply inline-flex items-center gap-1 rounded-full border border-brand-400/30 bg-brand-400/10 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300;
+  }
+
+  .legal-notice {
+    @apply rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/30 dark:text-amber-200;
+  }
+
+  .page-container {
+    @apply mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold tracking-tight text-content sm:text-4xl;
+    letter-spacing: -0.025em;
+  }
+
+  .gradient-text {
+    @apply text-brand-600 dark:text-brand-400;
+  }
+
+  /* Sektions-Überschrift mit kleinem Eyebrow */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-400;
+  }
+
+  .section-shell {
+    @apply rounded-3xl border border-theme bg-surface-elevated/75 p-5 shadow-sm sm:p-6;
+  }
+
+  .fade-stagger > * {
+    @apply animate-slide-up opacity-0;
+  }
+  .fade-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+  .fade-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+  .fade-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+  .fade-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+  .fade-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+  .fade-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-stagger > *,
+    .animate-slide-up {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-elevated) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+  .skeleton-card { @apply overflow-hidden; }
+
+  .cart-item-added { animation: cartPop 0.4s ease-out; }
+
+  .sticky-cart-fab {
+    @apply fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-600 text-white shadow-md transition hover:bg-brand-700 lg:hidden;
+  }
+
+  .legal-prose a {
+    @apply font-medium text-brand-600 hover:underline dark:text-brand-400;
+  }
+
+  .legal-prose ul {
+    @apply mt-2 list-inside list-disc space-y-1;
+  }
+
+  .legal-prose p + p {
+    @apply mt-3;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes cartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes gradientX {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .mesh-grid {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
